@@ -520,18 +520,14 @@ NSDate * RKHTTPCacheExpirationDateFromHeadersWithStatusCode(NSDictionary *header
 
 BOOL RKURLIsRelativeToURL(NSURL *URL, NSURL *baseURL)
 {
-    return [[URL absoluteString] hasPrefix:[baseURL absoluteString]];
+    return YES; //return [[URL absoluteString] hasPrefix:[baseURL absoluteString]];
 }
 
 NSString *RKPathAndQueryStringFromURLRelativeToURL(NSURL *URL, NSURL *baseURL)
 {
     if (baseURL) {
-        if ( RKURLIsRelativeToURL(URL, baseURL)) {
-            return [[URL absoluteString] substringFromIndex:[[baseURL absoluteString] length]];
-        } else {
-            NSURL *temp = [[NSURL alloc] initWithScheme:baseURL.scheme host:baseURL.host path:URL.path];
-            return [[temp absoluteString] substringFromIndex:[[baseURL absoluteString] length]];
-        }
+        NSURL *temp = [[NSURL alloc] initWithScheme:baseURL.scheme host:baseURL.host path:URL.path];
+        return [[temp absoluteString] substringFromIndex:[[baseURL absoluteString] length]];
     } else {
         // NOTE: [URL relativeString] would return the same value as `absoluteString` if URL is not relative to a baseURL
         NSString *query = [URL query];
